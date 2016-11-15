@@ -23,7 +23,8 @@ namespace LOLCode_Interpret
             Lexer.readPerLine(Lexer.filePath);
             lexemeListBox.DataSource = Lexer.keyMatch;
             classificationListBox.DataSource = Lexer.classification;
-            codeListBox.DataSource = Lexer.code;
+            codeTextBox.Text = Lexer.codeBlock;
+            
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -80,6 +81,11 @@ namespace LOLCode_Interpret
                     }
                 }
             }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

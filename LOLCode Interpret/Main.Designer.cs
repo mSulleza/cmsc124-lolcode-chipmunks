@@ -31,14 +31,13 @@
             this.testLexerButton = new System.Windows.Forms.Button();
             this.lexemeListBox = new System.Windows.Forms.ListBox();
             this.programNameLabel = new System.Windows.Forms.Label();
-            this.codeListBox = new System.Windows.Forms.ListBox();
             this.lexemeLabel = new System.Windows.Forms.Label();
             this.classificationListBox = new System.Windows.Forms.ListBox();
             this.classificationLabel = new System.Windows.Forms.Label();
             this.codeLabel = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileButton = new System.Windows.Forms.Button();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.codeTextBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // testLexerButton
@@ -60,6 +59,7 @@
             this.lexemeListBox.Name = "lexemeListBox";
             this.lexemeListBox.Size = new System.Drawing.Size(106, 148);
             this.lexemeListBox.TabIndex = 1;
+            this.lexemeListBox.UseWaitCursor = true;
             this.lexemeListBox.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // programNameLabel
@@ -72,16 +72,6 @@
             this.programNameLabel.TabIndex = 2;
             this.programNameLabel.Text = "LOL CODE INTERPRETER";
             this.programNameLabel.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // codeListBox
-            // 
-            this.codeListBox.Font = new System.Drawing.Font("Source Sans Pro", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.codeListBox.FormattingEnabled = true;
-            this.codeListBox.ItemHeight = 16;
-            this.codeListBox.Location = new System.Drawing.Point(17, 89);
-            this.codeListBox.Name = "codeListBox";
-            this.codeListBox.Size = new System.Drawing.Size(238, 164);
-            this.codeListBox.TabIndex = 3;
             // 
             // lexemeLabel
             // 
@@ -142,13 +132,13 @@
             this.openFileButton.UseVisualStyleBackColor = false;
             this.openFileButton.Click += new System.EventHandler(this.openFileButton_Click);
             // 
-            // vScrollBar1
+            // codeTextBox
             // 
-            this.vScrollBar1.Location = new System.Drawing.Point(499, 105);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(23, 148);
-            this.vScrollBar1.TabIndex = 10;
-            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
+            this.codeTextBox.Location = new System.Drawing.Point(17, 105);
+            this.codeTextBox.Name = "codeTextBox";
+            this.codeTextBox.Size = new System.Drawing.Size(238, 148);
+            this.codeTextBox.TabIndex = 10;
+            this.codeTextBox.Text = "";
             // 
             // Main
             // 
@@ -156,13 +146,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(756, 402);
-            this.Controls.Add(this.vScrollBar1);
+            this.Controls.Add(this.codeTextBox);
             this.Controls.Add(this.openFileButton);
             this.Controls.Add(this.codeLabel);
             this.Controls.Add(this.classificationLabel);
             this.Controls.Add(this.classificationListBox);
             this.Controls.Add(this.lexemeLabel);
-            this.Controls.Add(this.codeListBox);
             this.Controls.Add(this.programNameLabel);
             this.Controls.Add(this.lexemeListBox);
             this.Controls.Add(this.testLexerButton);
@@ -181,14 +170,13 @@
         private System.Windows.Forms.Button testLexerButton;
         private System.Windows.Forms.ListBox lexemeListBox;
         private System.Windows.Forms.Label programNameLabel;
-        private System.Windows.Forms.ListBox codeListBox;
         private System.Windows.Forms.Label lexemeLabel;
         private System.Windows.Forms.ListBox classificationListBox;
         private System.Windows.Forms.Label classificationLabel;
         private System.Windows.Forms.Label codeLabel;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button openFileButton;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.RichTextBox codeTextBox;
     }
 }
 

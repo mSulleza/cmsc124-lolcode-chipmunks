@@ -1,3 +1,4 @@
 HAI
- VISIBLE "xvariable"
+	VISIBLE "xvariable"
+	I HAS A x ITZ 5
 KTHXBYE
