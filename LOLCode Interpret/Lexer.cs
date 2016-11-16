@@ -43,7 +43,32 @@ namespace LOLCode_Interpret
             string code = file.ReadToEnd();
             return code;
         }
-        
+        public static void matchSingleComment(String input)
+        {
+            string patternBTW = @"^( |\t)?(BTW)(.*)$";
+            Match matchBTWSingle = Regex.Match(input, patternBTW);
+            if (matchBTWSingle.Success)
+            {
+                keyMatch.Add(matchBTWSingle.Groups[2].ToString());
+                classification.Add("Single Line Comment Delimiter");
+                keyMatch.Add(matchBTWSingle.Groups[3].ToString());
+                classification.Add("Comment");
+            }
+
+        }
+
+        public static void matchMultiComment(String input)
+        {
+            string patternOBTWMulti = @"^( |\t)?(OBTW) (.*)\n( |\t)?(TLDR)$";
+            Match matchOBTWMulti = Regex.Match(input, patternOBTWMulti);
+            if (matchOBTWMulti.Success)
+            {
+                keyMatch.Add(matchOBTWMulti.Groups[2].ToString());
+                classification.Add("Single Line Comment Delimiter");
+                keyMatch.Add(matchOBTWMulti.Groups[5].ToString());
+                classification.Add("Comment");
+            }
+        }
         public static void isVariable(String input)
         {
             string patternVariable = @"^([a-zA-Z]+)([0-9_]*)$";
@@ -104,6 +129,8 @@ namespace LOLCode_Interpret
             //reads until not null
             while ((line = file.ReadLine()) != null)
             {
+                matchSingleComment(line);
+                matchMultiComment(line);
                 //checks for HAI BYE partner
                 if (counter == 0)
                 {   //checks for HAI
@@ -129,10 +156,10 @@ namespace LOLCode_Interpret
                     }
                 }
                 //end of HAI BYE partner
-                
+
                 //checks for keyword VISIBLE
 
-                
+
                 Match matchVISIBLE = Regex.Match(line, patternVISIBLE);
                 if (matchVISIBLE.Success)
                 {
