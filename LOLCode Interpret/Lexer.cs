@@ -69,12 +69,33 @@ namespace LOLCode_Interpret
                 classification.Add("Comment");
             }
         }
-        public static void isVariable(String input)
+        public static void isWhat(String input)
         {
             string patternVariable = @"^([a-zA-Z]+)([0-9_]*)$";
             string patternNumbar = @"^[0-9]*\.[0-9]+$";
+            string patternYarn = @"(\042)(.*)(\042)";
+            string patternBoolean = @"^(WIN|FAIL)$";
             Match isVariable = Regex.Match(input, patternVariable);
-            
+            Match isYarn = Regex.Match(input, patternYarn);
+            Match isBoolean = Regex.Match(input, patternBoolean);
+            if (isBoolean.Success)
+            {
+                if(isBoolean.ToString() == "WIN")
+                {
+                    classification.Add("Boolean True");
+                    return;
+                }
+                else
+                {
+                    classification.Add("Boolean False");
+                    return;
+                }
+            }
+            if (isYarn.Success)
+            {
+                classification.Add("Yarn");
+                return;
+            }
             if (isVariable.Success)
             {
                 classification.Add("Variable");
@@ -89,6 +110,61 @@ namespace LOLCode_Interpret
                 else classification.Add("NUMBR");
             }
         }
+        public static void arithmeticOp(String input)
+        {
+            string patternArithmeticOps = @"^(\t| )?(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+)$";
+            Match matchArithmeticOps = Regex.Match(input, patternArithmeticOps);
+            if (matchArithmeticOps.Success)
+            {
+
+                switch (matchArithmeticOps.Groups[2].ToString()) //edited
+                {
+                    case "SUM OF":
+                        classification.Add("Addition Operator");
+                        break;
+                    case "DIFF OF":
+                        classification.Add("Subtration Operator");
+                        break;
+                    case "PRODUKT OF":
+                        classification.Add("Product Operator");
+                        break;
+                    case "QUOSHUNT OF":
+                        classification.Add("Division Operator");
+                        break;
+                    case "MOD OF":
+                        classification.Add("Modulo Operator");
+                        break;
+                    case "BIGGR OF":
+                        classification.Add("Max Operator");
+                        break;
+                    case "SMALLR OF":
+                        classification.Add("Min Operator");
+                        break;
+                }
+                keyMatch.Add(matchArithmeticOps.Groups[2].ToString());
+                keyMatch.Add(matchArithmeticOps.Groups[3].ToString());
+                isWhat(matchArithmeticOps.Groups[3].ToString());
+                keyMatch.Add(matchArithmeticOps.Groups[5].ToString());
+                classification.Add("Concatenation");
+                keyMatch.Add(matchArithmeticOps.Groups[6].ToString());
+                isWhat(matchArithmeticOps.Groups[6].ToString());
+            }
+        }
+        public static void isExpression(String input)
+        {
+            string patternArithmeticOps = @"^(\t| )?(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+)$";
+            Match isExpression = Regex.Match(input, patternArithmeticOps);
+            if (isExpression.Success)
+            {
+                arithmeticOp(input);
+            }
+            else
+            {
+                keyMatch.Add(input);
+                isWhat(input);
+            }
+        }
+        
         public static void readPerLine(String filePath)
         {
 
@@ -103,22 +179,21 @@ namespace LOLCode_Interpret
             bool foundORLY = false;
             bool foundYARLY = false;
             bool foundNOWAI = false;
+            string patternArithmeticOps = @"^(\t| )?(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+)$";
             string patternInteger = @"^(-?[0-9]+)$"; //edit: included negative integer "-?"
             string patternVariable = @"^([a-zA-Z]+)([0-9_]*)$";
             string patternVISIBLE = "^((\t| )VISIBLE) ((\")(.*)(\")|[^\"].*[^\"])$";
             string patternBYE = @"^KTHXBYE$";
             string patternHAI = @"^HAI$";
-            string patternIHASA = @"^((\t| )?I HAS A) ([a-zA-Z]+)([0-9_]*)$"; //edit: changed [a-zA-Z]* to [a-zA-Z]+
-            string patternIHASAITZ = @"^((\t| )?I HAS A) ([a-zA-Z]+)([0-9_]*) (ITZ) ((-?[0-9]*)|([a-zA-Z]*)([0-9_]*))$"; //edit: changed  ([a-zA-Z]*([0-9_]*)) to (".*")
+            string patternIHASA = @"^((\t| )?I HAS A) (([a-zA-Z]+)([0-9_]*))$"; //edit: changed [a-zA-Z]* to [a-zA-Z]+
+            string patternIHASAITZ = @"^((\t| )?I HAS A) (([a-zA-Z]+)([0-9_]*)) (ITZ) (-?[0-9]*|([a-zA-Z]+)([0-9_]*)|-?[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$"; //edit: changed  ([a-zA-Z]*([0-9_]*)) to (".*")
             //string patternR = @"^((\t| ([a-zA-Z]*)([0-9_]*) (R) ([0-9])*)$";
             string patternGIMMEH = @"^((\t| )GIMMEH) ([a-zA-Z]*)([0-9_]*)$";
-            //string patternArithmeticOps = "^((\t| )((SUM)|(DIFF)|(PRODUKT)|(QUOSHUNT)|(MOD)|(BIGGR)|(SMALLR))) (OF) ([0-9]+|^([a-zA-Z]+)([0-9_]*)) (AN) ([0-9]+|^([a-zA-Z]+)([0-9_]*))$"; //edit: can accept variables and changed [0-9]* to [0-9]+
-            string patternArithmeticOps = @"^(\t| )?(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) ([0-9]+|([a-zA-Z]+[0-9_]*)|^[0-9]*\.[0-9]+$) (AN) ([0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+)$";
-            string patternBooleanOps = @"^((\t| )((BOTH)|(EITHER)|(WON)|(ALL)|(ANY)))" + " (OF) ((WIN)|(FAIL)) (AN) ((WIN)|(FAIL))$";
+            string patternBooleanOps = @"^(\t| )?(BOTH OF|EITHER OF|WON OF|ALL OF|ANY OF) (([a-zA-Z]+)([0-9_]*)|WIN|FAIL) (AN) (([a-zA-Z]+)([0-9_]*)|WIN|FAIL)$";
             string patternBooleanNot = @"^((\t| )NOT) ((WIN)|(FAIL))$";
             string patternIfElse = @"^((\t| )(.*))(\n)((\t| )(O RLY?)(\n))((\t| )(YA RLY)(\n))((\t| )(.*))(\n)((\t| )(NO WAI)(\n))((\t| ).*)((\t| )(OIC))$";
-            string patternBOTHSAEM = @"^(\t| )?(BOTH SAEM) ([0-9]+|([a-zA-Z]+[0-9_]*)) (AN) ([0-9]+|([a-zA-Z]+[0-9_]*|[0-9]*\.[0-9]+))$";
-            string patternDIFFRINT = @"^(\t| )?(DIFFRINT) ([0-9]+|([a-zA-Z]+[0-9_]*)) (AN) ([0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+)$";
+            string patternBOTHSAEM = @"^(\t| )?(BOTH SAEM) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$";
+            string patternDIFFRINT = @"^(\t| )?(DIFFRINT) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$";
             System.IO.StreamReader file = openFileProcedure(filePath);
 
             if (file != null)
@@ -197,39 +272,19 @@ namespace LOLCode_Interpret
                 Match matchIHASITZ = Regex.Match(line, patternIHASAITZ);
                 if (matchIHASITZ.Success)
                 {               //initialized declaration
-                    keyMatch.Add(matchIHASITZ.Groups[1].ToString().Replace("\t", "").Replace(" I", "")); //edit: added replacement for \t with an empty char
+                    keyMatch.Add(matchIHASITZ.Groups[1].ToString());
                     classification.Add("Variable Declaration");
-                    //Console.WriteLine("{0}", matchIHASITZ.Groups[6].ToString());
+                    keyMatch.Add(matchIHASITZ.Groups[3].ToString());
+                    classification.Add("Variable");
+                    variables.Add(matchIHASITZ.Groups[3].ToString());
+                    keyMatch.Add(matchIHASITZ.Groups[6].ToString());
+                    classification.Add("Variable Initialization");
+                    isExpression(matchIHASITZ.Groups[7].ToString());
 
-                    Match matchInt = Regex.Match(matchIHASITZ.Groups[6].ToString(), patternInteger);
-                    Match matchVar = Regex.Match(matchIHASITZ.Groups[6].ToString(), patternVariable);
-                    if (matchInt.Success)
-                    {                   //check if initialized with int
-                        keyMatch.Add(matchIHASITZ.Groups[3].ToString());
-                        classification.Add("Variable");   //integer variable
-                        keyMatch.Add(matchIHASITZ.Groups[5].ToString());
-                        classification.Add("Variable Initialization");
-                        keyMatch.Add(matchIHASITZ.Groups[6].ToString());
-                        classification.Add("NUMBR");
-                    }
-                    else if (matchVar.Success)
-                    {           //check if initialized with variable
-                        keyMatch.Add(matchIHASITZ.Groups[3].ToString());
-                        classification.Add("Variable");         //TODO: check value of variable
-                        keyMatch.Add(matchIHASITZ.Groups[5].ToString());
-                        classification.Add("Variable Initialization");
-                        keyMatch.Add(matchIHASITZ.Groups[6].ToString());
-                        classification.Add("Variable");
-                    }
-                    else
-                    {
-                        //initialized with expression
-                    }
-                    keyMatchCount += 4;
                 }
                 else if (matchIHASA.Success)
                 { //uninitialized decalaration
-                    keyMatch.Add(matchIHASA.Groups[1].ToString().Replace(" I", "I"));
+                    keyMatch.Add(matchIHASA.Groups[1].ToString());
                     classification.Add("Variable Declaration");
                     keyMatch.Add(matchIHASA.Groups[3].ToString());
                     classification.Add("NOOB Variable");
@@ -293,11 +348,11 @@ namespace LOLCode_Interpret
                     }
                     keyMatch.Add(matchArithmeticOps.Groups[2].ToString());
                     keyMatch.Add(matchArithmeticOps.Groups[3].ToString());
-                    isVariable(matchArithmeticOps.Groups[3].ToString());
+                    isWhat(matchArithmeticOps.Groups[3].ToString());
                     keyMatch.Add(matchArithmeticOps.Groups[5].ToString());
                     classification.Add("Concatenation");
-                    keyMatch.Add(matchArithmeticOps.Groups[6].ToString());
-                    isVariable(matchArithmeticOps.Groups[6].ToString());
+                    isExpression(matchArithmeticOps.Groups[6].ToString());
+
                 }
 
 
@@ -305,49 +360,33 @@ namespace LOLCode_Interpret
                 Match matchBooleanOps = Regex.Match(line, patternBooleanOps);
                 if (matchBooleanOps.Success)
                 {
-                    keyMatch.Add(matchBooleanOps.Groups[1].ToString().Replace(" ", "") +
-                        " " + matchBooleanOps.Groups[9].ToString());
 
-                    switch (matchBooleanOps.Groups[1].ToString().Replace(" ", ""))
+                    keyMatch.Add(matchBooleanOps.Groups[2].ToString());
+                    switch (matchBooleanOps.Groups[2].ToString())
                     {
-                        case "BOTH":
+                        case "BOTH OF":
                             classification.Add("AND Operator");
                             break;
-                        case "EITHER":
+                        case "EITHER OF":
                             classification.Add("OR Operator");
                             break;
-                        case "WON":
+                        case "WON OF":
                             classification.Add("XOR Operator");
                             break;
-                        case "ALL":
+                        case "ALL OF":
                             classification.Add("Infinite Arity AND Operator");
                             break;
-                        case "ANY":
+                        case "ANY OF":
                             classification.Add("Infinite Arity OR Operator");
                             break;
                     }
-
-                    keyMatch.Add(matchBooleanOps.Groups[10].ToString());
-                    if (String.Compare(matchBooleanOps.Groups[10].ToString(), "WIN") == 0)
-                    {   //check if WIN or FAIL
-                        classification.Add("Boolean True");
-                    }
-                    else if (String.Compare(matchBooleanOps.Groups[10].ToString(), "FAIL") == 0)
-                    {
-                        classification.Add("Boolean False");
-                    }
-                    keyMatch.Add(matchBooleanOps.Groups[13].ToString());
+                    keyMatch.Add(matchBooleanOps.Groups[3].ToString());
+                    isWhat(matchBooleanOps.Groups[3].ToString());
+                    keyMatch.Add(matchBooleanOps.Groups[6].ToString());
                     classification.Add("Concatenation");
-                    keyMatch.Add(matchBooleanOps.Groups[14].ToString());
-                    if (String.Compare(matchBooleanOps.Groups[14].ToString(), "WIN") == 0)
-                    {   //check if WIN or FAIL
-                        classification.Add("Boolean True");
-                    }
-                    else if (String.Compare(matchBooleanOps.Groups[14].ToString(), "FAIL") == 0)
-                    {
-                        classification.Add("Boolean False");
-                    }
-                    keyMatchCount += 4;
+                    keyMatch.Add(matchBooleanOps.Groups[7].ToString());
+                    isWhat(matchBooleanOps.Groups[7].ToString());
+                    
                 }
 
                 //check for NOT operation
@@ -468,11 +507,12 @@ namespace LOLCode_Interpret
                     classification.Add("Comparison Operator");
                     //compare if immediate value or variable
                     keyMatch.Add(matchBOTHSAEM.Groups[3].ToString());
-                    isVariable(matchBOTHSAEM.Groups[3].ToString());
+                    isWhat(matchBOTHSAEM.Groups[3].ToString());
                     keyMatch.Add(matchBOTHSAEM.Groups[5].ToString());
                     classification.Add("Concatenation");
-                    keyMatch.Add(matchBOTHSAEM.Groups[6].ToString());
-                    isVariable(matchBOTHSAEM.Groups[6].ToString());
+                    isExpression(matchBOTHSAEM.Groups[6].ToString());
+                    //keyMatch.Add(matchBOTHSAEM.Groups[6].ToString());
+                    //isWhat(matchBOTHSAEM.Groups[6].ToString());
 
                 }
 
@@ -483,11 +523,11 @@ namespace LOLCode_Interpret
                     classification.Add("Comparison Operator");
                     //compare if immediate value or variable
                     keyMatch.Add(matchDIFFRINT.Groups[3].ToString());
-                    isVariable(matchDIFFRINT.Groups[3].ToString());
+                    isWhat(matchDIFFRINT.Groups[3].ToString());
                     keyMatch.Add(matchDIFFRINT.Groups[5].ToString());
                     classification.Add("Concatenation");
                     keyMatch.Add(matchDIFFRINT.Groups[6].ToString());
-                    isVariable(matchDIFFRINT.Groups[6].ToString());
+                    isWhat(matchDIFFRINT.Groups[6].ToString());
                 }
 
 

@@ -1,10 +1,14 @@
 HAI
 	VISIBLE "xvariable"
-	I HAS A x ITZ 5
-	SUM OF x5 AN 89
-	BOTH SAEM x AN y
+	I HAS A var2
+	I HAS A x ITZ 5.5
+	I HAS A x3 ITZ SUM OF 35.5 AN 5
+	SUM OF x5 AN 89.7
+	BOTH SAEM 3.5 AN y
 	DIFFRINT 5 AN 3.5
 	OBTW hahahaha
 	TLDR
 	BTW single comment! wohoo
+	BOTH OF x5 AN x2
+	BOTH SAEM x3 AN BIGGR OF x3 AN y3
 KTHXBYE
