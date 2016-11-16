@@ -21,9 +21,12 @@ namespace LOLCode_Interpret
         private void button1_Click(object sender, EventArgs e)
         {
             Lexer.readPerLine(Lexer.filePath);
-            lexemeListBox.DataSource = Lexer.keyMatch;
-            classificationListBox.DataSource = Lexer.classification;
             codeTextBox.Text = Lexer.codeBlock;
+
+            for(int i=0; i < Lexer.keyMatch.Count(); i++)
+            {
+                lexemeClassificationGrid.Rows.Add(Lexer.keyMatch[i], Lexer.classification[i]);
+            }
             
         }
 

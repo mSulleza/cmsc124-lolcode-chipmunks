@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.testLexerButton = new System.Windows.Forms.Button();
-            this.lexemeListBox = new System.Windows.Forms.ListBox();
             this.programNameLabel = new System.Windows.Forms.Label();
-            this.lexemeLabel = new System.Windows.Forms.Label();
-            this.classificationListBox = new System.Windows.Forms.ListBox();
-            this.classificationLabel = new System.Windows.Forms.Label();
             this.codeLabel = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileButton = new System.Windows.Forms.Button();
             this.codeTextBox = new System.Windows.Forms.RichTextBox();
+            this.lexemeClassificationGrid = new System.Windows.Forms.DataGridView();
+            this.Lexemes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Classification = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.lexemeClassificationGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // testLexerButton
@@ -50,18 +50,6 @@
             this.testLexerButton.UseVisualStyleBackColor = true;
             this.testLexerButton.Click += new System.EventHandler(this.button1_Click);
             // 
-            // lexemeListBox
-            // 
-            this.lexemeListBox.Font = new System.Drawing.Font("Source Sans Pro", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lexemeListBox.FormattingEnabled = true;
-            this.lexemeListBox.ItemHeight = 16;
-            this.lexemeListBox.Location = new System.Drawing.Point(261, 105);
-            this.lexemeListBox.Name = "lexemeListBox";
-            this.lexemeListBox.Size = new System.Drawing.Size(106, 148);
-            this.lexemeListBox.TabIndex = 1;
-            this.lexemeListBox.UseWaitCursor = true;
-            this.lexemeListBox.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
-            // 
             // programNameLabel
             // 
             this.programNameLabel.AutoSize = true;
@@ -72,40 +60,6 @@
             this.programNameLabel.TabIndex = 2;
             this.programNameLabel.Text = "LOL CODE INTERPRETER";
             this.programNameLabel.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // lexemeLabel
-            // 
-            this.lexemeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lexemeLabel.Font = new System.Drawing.Font("Source Sans Pro", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lexemeLabel.Location = new System.Drawing.Point(261, 83);
-            this.lexemeLabel.Name = "lexemeLabel";
-            this.lexemeLabel.Size = new System.Drawing.Size(106, 22);
-            this.lexemeLabel.TabIndex = 4;
-            this.lexemeLabel.Text = "LEXEME";
-            this.lexemeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lexemeLabel.Click += new System.EventHandler(this.label2_Click);
-            // 
-            // classificationListBox
-            // 
-            this.classificationListBox.Font = new System.Drawing.Font("Source Sans Pro", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.classificationListBox.FormattingEnabled = true;
-            this.classificationListBox.ItemHeight = 16;
-            this.classificationListBox.Location = new System.Drawing.Point(373, 105);
-            this.classificationListBox.Name = "classificationListBox";
-            this.classificationListBox.Size = new System.Drawing.Size(123, 148);
-            this.classificationListBox.TabIndex = 5;
-            this.classificationListBox.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged_1);
-            // 
-            // classificationLabel
-            // 
-            this.classificationLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.classificationLabel.Font = new System.Drawing.Font("Source Sans Pro", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.classificationLabel.Location = new System.Drawing.Point(373, 83);
-            this.classificationLabel.Name = "classificationLabel";
-            this.classificationLabel.Size = new System.Drawing.Size(123, 22);
-            this.classificationLabel.TabIndex = 6;
-            this.classificationLabel.Text = "CLASSIFICATION";
-            this.classificationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // codeLabel
             // 
@@ -140,26 +94,56 @@
             this.codeTextBox.TabIndex = 10;
             this.codeTextBox.Text = "";
             // 
+            // lexemeClassificationGrid
+            // 
+            this.lexemeClassificationGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.lexemeClassificationGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lexemeClassificationGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.lexemeClassificationGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Lexemes,
+            this.Classification});
+            this.lexemeClassificationGrid.Location = new System.Drawing.Point(261, 83);
+            this.lexemeClassificationGrid.Name = "lexemeClassificationGrid";
+            this.lexemeClassificationGrid.ReadOnly = true;
+            this.lexemeClassificationGrid.RowHeadersVisible = false;
+            this.lexemeClassificationGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.lexemeClassificationGrid.Size = new System.Drawing.Size(223, 175);
+            this.lexemeClassificationGrid.TabIndex = 11;
+            // 
+            // Lexemes
+            // 
+            this.Lexemes.HeaderText = "Lexeme";
+            this.Lexemes.Name = "Lexemes";
+            this.Lexemes.ReadOnly = true;
+            this.Lexemes.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Lexemes.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Classification
+            // 
+            this.Classification.HeaderText = "Classification";
+            this.Classification.Name = "Classification";
+            this.Classification.ReadOnly = true;
+            this.Classification.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Classification.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(756, 402);
+            this.Controls.Add(this.lexemeClassificationGrid);
             this.Controls.Add(this.codeTextBox);
             this.Controls.Add(this.openFileButton);
             this.Controls.Add(this.codeLabel);
-            this.Controls.Add(this.classificationLabel);
-            this.Controls.Add(this.classificationListBox);
-            this.Controls.Add(this.lexemeLabel);
             this.Controls.Add(this.programNameLabel);
-            this.Controls.Add(this.lexemeListBox);
             this.Controls.Add(this.testLexerButton);
             this.Font = new System.Drawing.Font("Source Sans Pro", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Main";
             this.Text = "CMSC 124 \"Chipmunks\"";
             this.Load += new System.EventHandler(this.Main_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.lexemeClassificationGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -168,15 +152,14 @@
         #endregion
 
         private System.Windows.Forms.Button testLexerButton;
-        private System.Windows.Forms.ListBox lexemeListBox;
         private System.Windows.Forms.Label programNameLabel;
-        private System.Windows.Forms.Label lexemeLabel;
-        private System.Windows.Forms.ListBox classificationListBox;
-        private System.Windows.Forms.Label classificationLabel;
         private System.Windows.Forms.Label codeLabel;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button openFileButton;
         private System.Windows.Forms.RichTextBox codeTextBox;
+        private System.Windows.Forms.DataGridView lexemeClassificationGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Lexemes;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Classification;
     }
 }
 
