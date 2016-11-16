@@ -233,10 +233,7 @@ namespace LOLCode_Interpret
                 Match matchArithmeticOps = Regex.Match(line, patternArithmeticOps);
                 if (matchArithmeticOps.Success)
                 {
-                    //keyMatch.Add(matchArithmeticOps.Groups[2].ToString());
-                    //keyMatch.Add(matchArithmeticOps.Groups[1].ToString().Replace(" ", "") +
-                    //        " " + matchArithmeticOps.Groups[11].ToString());
-                    Console.Write(matchArithmeticOps.Groups[2].ToString());
+
                     switch (matchArithmeticOps.Groups[2].ToString()) //edited
                     {
                         case "SUM OF":
@@ -262,11 +259,12 @@ namespace LOLCode_Interpret
                             break;
                     }
                     keyMatch.Add(matchArithmeticOps.Groups[2].ToString());
-                    //classification.Add("NUMBR");                    //keyMatch.Add(matchArithmeticOps.Groups[13].ToString());
-                    //classification.Add("Concatenation");
-                    //keyMatch.Add(matchArithmeticOps.Groups[14].ToString());
-                    //classification.Add("NUMBR");
-                    //keyMatchCount += 4;
+                    keyMatch.Add(matchArithmeticOps.Groups[3].ToString());
+                    isVariable(matchArithmeticOps.Groups[3].ToString());
+                    keyMatch.Add(matchBOTHSAEM.Groups[5].ToString());
+                    classification.Add("Concatenation");
+                    keyMatch.Add(matchArithmeticOps.Groups[6].ToString());
+                    isVariable(matchArithmeticOps.Groups[6].ToString());
                 }
 
 
@@ -433,7 +431,6 @@ namespace LOLCode_Interpret
                 Match matchBOTHSAEM = Regex.Match(line, patternBOTHSAEM);
                 if (matchBOTHSAEM.Success)
                 {
-                    Console.Write(matchBOTHSAEM.Groups[6].ToString());
                     keyMatch.Add(matchBOTHSAEM.Groups[2].ToString());
                     classification.Add("Comparison Operator");
                     //compare if immediate value or variable

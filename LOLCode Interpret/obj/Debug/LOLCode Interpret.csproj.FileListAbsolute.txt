@@ -7,3 +7,12 @@ C:\Users\marks\OneDrive\Documents\Visual Studio 2015\Projects\LOLCode Interpret\
 C:\Users\marks\OneDrive\Documents\Visual Studio 2015\Projects\LOLCode Interpret\LOLCode Interpret\obj\Debug\LOLCode Interpret.exe
 C:\Users\marks\OneDrive\Documents\Visual Studio 2015\Projects\LOLCode Interpret\LOLCode Interpret\obj\Debug\LOLCode Interpret.pdb
 C:\Users\marks\OneDrive\Documents\Visual Studio 2015\Projects\LOLCode Interpret\LOLCode Interpret\obj\Debug\LOLCode_Interpret.Main.resources
+C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\bin\Debug\LOLCode Interpret.exe.config
+C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\obj\Debug\LOLCode Interpret.exe
+C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\obj\Debug\LOLCode Interpret.pdb
+C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\bin\Debug\LOLCode Interpret.exe
+C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\bin\Debug\LOLCode Interpret.pdb
+C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\obj\Debug\LOLCode Interpret.csprojResolveAssemblyReference.cache
+C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\obj\Debug\LOLCode_Interpret.Main.resources
+C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\obj\Debug\LOLCode_Interpret.Properties.Resources.resources
+C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\obj\Debug\LOLCode Interpret.csproj.GenerateResource.Cache
