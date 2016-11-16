@@ -1,4 +1,7 @@
 HAI
 	VISIBLE "xvariable"
 	I HAS A x ITZ 5
+	SUM OF x5z AN y8s
+	BOTH SAEM x AN y
+	DIFFRINT 5 AN 3
 KTHXBYE
