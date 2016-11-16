@@ -72,6 +72,7 @@ namespace LOLCode_Interpret
         public static void isVariable(String input)
         {
             string patternVariable = @"^([a-zA-Z]+)([0-9_]*)$";
+            string patternNumbar = @"^[0-9]*\.[0-9]+$";
             Match isVariable = Regex.Match(input, patternVariable);
             
             if (isVariable.Success)
@@ -80,7 +81,12 @@ namespace LOLCode_Interpret
             }
             else
             {
-                classification.Add("NUMBR");
+                Match isNumbar = Regex.Match(input, patternNumbar);
+                if (isNumbar.Success)
+                {
+                    classification.Add("NUMBAR");
+                }
+                else classification.Add("NUMBR");
             }
         }
         public static void readPerLine(String filePath)
@@ -102,17 +108,17 @@ namespace LOLCode_Interpret
             string patternVISIBLE = "^((\t| )VISIBLE) ((\")(.*)(\")|[^\"].*[^\"])$";
             string patternBYE = @"^KTHXBYE$";
             string patternHAI = @"^HAI$";
-            string patternIHASA = @"^((\t| )I HAS A) ([a-zA-Z]+)([0-9_]*)$"; //edit: changed [a-zA-Z]* to [a-zA-Z]+
-            string patternIHASAITZ = @"^((\t| )I HAS A) ([a-zA-Z]*)([0-9_]*) (ITZ) (([0-9]*)|([a-zA-Z]*)([0-9_]*))$"; //edit: changed  ([a-zA-Z]*([0-9_]*)) to (".*")
+            string patternIHASA = @"^((\t| )?I HAS A) ([a-zA-Z]+)([0-9_]*)$"; //edit: changed [a-zA-Z]* to [a-zA-Z]+
+            string patternIHASAITZ = @"^((\t| )?I HAS A) ([a-zA-Z]+)([0-9_]*) (ITZ) ((-?[0-9]*)|([a-zA-Z]*)([0-9_]*))$"; //edit: changed  ([a-zA-Z]*([0-9_]*)) to (".*")
             //string patternR = @"^((\t| ([a-zA-Z]*)([0-9_]*) (R) ([0-9])*)$";
             string patternGIMMEH = @"^((\t| )GIMMEH) ([a-zA-Z]*)([0-9_]*)$";
             //string patternArithmeticOps = "^((\t| )((SUM)|(DIFF)|(PRODUKT)|(QUOSHUNT)|(MOD)|(BIGGR)|(SMALLR))) (OF) ([0-9]+|^([a-zA-Z]+)([0-9_]*)) (AN) ([0-9]+|^([a-zA-Z]+)([0-9_]*))$"; //edit: can accept variables and changed [0-9]* to [0-9]+
-            string patternArithmeticOps = @"^(\t| )?(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) ([0-9]+|([a-zA-Z]+[0-9_]*)) (AN) ([0-9]+|([a-zA-Z]+[0-9_]*))$";
+            string patternArithmeticOps = @"^(\t| )?(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) ([0-9]+|([a-zA-Z]+[0-9_]*)|^[0-9]*\.[0-9]+$) (AN) ([0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+)$";
             string patternBooleanOps = @"^((\t| )((BOTH)|(EITHER)|(WON)|(ALL)|(ANY)))" + " (OF) ((WIN)|(FAIL)) (AN) ((WIN)|(FAIL))$";
             string patternBooleanNot = @"^((\t| )NOT) ((WIN)|(FAIL))$";
             string patternIfElse = @"^((\t| )(.*))(\n)((\t| )(O RLY?)(\n))((\t| )(YA RLY)(\n))((\t| )(.*))(\n)((\t| )(NO WAI)(\n))((\t| ).*)((\t| )(OIC))$";
-            string patternBOTHSAEM = @"^(\t| )?(BOTH SAEM) ([0-9]+|([a-zA-Z]+[0-9_]*)) (AN) ([0-9]+|([a-zA-Z]+[0-9_]*))$";
-            string patternDIFFRINT = @"^(\t| )?(DIFFRINT) ([0-9]+|([a-zA-Z]+[0-9_]*)) (AN) ([0-9]+|([a-zA-Z]+[0-9_]*))$";
+            string patternBOTHSAEM = @"^(\t| )?(BOTH SAEM) ([0-9]+|([a-zA-Z]+[0-9_]*)) (AN) ([0-9]+|([a-zA-Z]+[0-9_]*|[0-9]*\.[0-9]+))$";
+            string patternDIFFRINT = @"^(\t| )?(DIFFRINT) ([0-9]+|([a-zA-Z]+[0-9_]*)) (AN) ([0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+)$";
             System.IO.StreamReader file = openFileProcedure(filePath);
 
             if (file != null)
