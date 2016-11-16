@@ -261,7 +261,7 @@ namespace LOLCode_Interpret
                     keyMatch.Add(matchArithmeticOps.Groups[2].ToString());
                     keyMatch.Add(matchArithmeticOps.Groups[3].ToString());
                     isVariable(matchArithmeticOps.Groups[3].ToString());
-                    keyMatch.Add(matchBOTHSAEM.Groups[5].ToString());
+                    keyMatch.Add(matchArithmeticOps.Groups[5].ToString());
                     classification.Add("Concatenation");
                     keyMatch.Add(matchArithmeticOps.Groups[6].ToString());
                     isVariable(matchArithmeticOps.Groups[6].ToString());
