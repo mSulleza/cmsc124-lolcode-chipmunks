@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.testLexerButton = new System.Windows.Forms.Button();
-            this.programNameLabel = new System.Windows.Forms.Label();
             this.codeLabel = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileButton = new System.Windows.Forms.Button();
@@ -37,50 +36,42 @@
             this.lexemeClassificationGrid = new System.Windows.Forms.DataGridView();
             this.Lexemes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Classification = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.lexemeClassificationGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // testLexerButton
             // 
-            this.testLexerButton.Location = new System.Drawing.Point(581, 27);
+            this.testLexerButton.Location = new System.Drawing.Point(17, 204);
             this.testLexerButton.Name = "testLexerButton";
             this.testLexerButton.Size = new System.Drawing.Size(163, 55);
             this.testLexerButton.TabIndex = 0;
-            this.testLexerButton.Text = "Test Lexer";
+            this.testLexerButton.Text = "Execute";
             this.testLexerButton.UseVisualStyleBackColor = true;
             this.testLexerButton.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // programNameLabel
-            // 
-            this.programNameLabel.AutoSize = true;
-            this.programNameLabel.Font = new System.Drawing.Font("Source Sans Pro", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.programNameLabel.Location = new System.Drawing.Point(12, 10);
-            this.programNameLabel.Name = "programNameLabel";
-            this.programNameLabel.Size = new System.Drawing.Size(261, 30);
-            this.programNameLabel.TabIndex = 2;
-            this.programNameLabel.Text = "LOL CODE INTERPRETER";
-            this.programNameLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // codeLabel
             // 
             this.codeLabel.Font = new System.Drawing.Font("Source Sans Pro", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.codeLabel.Location = new System.Drawing.Point(13, 60);
+            this.codeLabel.Location = new System.Drawing.Point(13, 23);
             this.codeLabel.Name = "codeLabel";
             this.codeLabel.Size = new System.Drawing.Size(54, 22);
             this.codeLabel.TabIndex = 7;
-            this.codeLabel.Text = "Code";
+            this.codeLabel.Text = "Code:";
+            this.codeLabel.Click += new System.EventHandler(this.codeLabel_Click);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.InitialDirectory = "~";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // openFileButton
             // 
             this.openFileButton.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.openFileButton.Location = new System.Drawing.Point(73, 60);
+            this.openFileButton.Location = new System.Drawing.Point(172, 11);
             this.openFileButton.Name = "openFileButton";
-            this.openFileButton.Size = new System.Drawing.Size(75, 24);
+            this.openFileButton.Size = new System.Drawing.Size(83, 31);
             this.openFileButton.TabIndex = 9;
             this.openFileButton.Text = "Open File...";
             this.openFileButton.UseVisualStyleBackColor = false;
@@ -88,21 +79,27 @@
             // 
             // codeTextBox
             // 
-            this.codeTextBox.Location = new System.Drawing.Point(17, 105);
+            this.codeTextBox.Location = new System.Drawing.Point(17, 45);
             this.codeTextBox.Name = "codeTextBox";
-            this.codeTextBox.Size = new System.Drawing.Size(238, 148);
+            this.codeTextBox.ReadOnly = true;
+            this.codeTextBox.Size = new System.Drawing.Size(238, 153);
             this.codeTextBox.TabIndex = 10;
             this.codeTextBox.Text = "";
             // 
             // lexemeClassificationGrid
             // 
+            this.lexemeClassificationGrid.AllowUserToAddRows = false;
+            this.lexemeClassificationGrid.AllowUserToDeleteRows = false;
+            this.lexemeClassificationGrid.AllowUserToResizeColumns = false;
+            this.lexemeClassificationGrid.AllowUserToResizeRows = false;
             this.lexemeClassificationGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.lexemeClassificationGrid.BackgroundColor = System.Drawing.SystemColors.ActiveBorder;
             this.lexemeClassificationGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lexemeClassificationGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.lexemeClassificationGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Lexemes,
             this.Classification});
-            this.lexemeClassificationGrid.Location = new System.Drawing.Point(261, 83);
+            this.lexemeClassificationGrid.Location = new System.Drawing.Point(261, 23);
             this.lexemeClassificationGrid.Name = "lexemeClassificationGrid";
             this.lexemeClassificationGrid.ReadOnly = true;
             this.lexemeClassificationGrid.RowHeadersVisible = false;
@@ -126,33 +123,42 @@
             this.Classification.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Classification.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.richTextBox1.ForeColor = System.Drawing.SystemColors.Info;
+            this.richTextBox1.Location = new System.Drawing.Point(17, 265);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(696, 261);
+            this.richTextBox1.TabIndex = 12;
+            this.richTextBox1.Text = "";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(756, 402);
+            this.ClientSize = new System.Drawing.Size(725, 536);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.lexemeClassificationGrid);
             this.Controls.Add(this.codeTextBox);
             this.Controls.Add(this.openFileButton);
             this.Controls.Add(this.codeLabel);
-            this.Controls.Add(this.programNameLabel);
             this.Controls.Add(this.testLexerButton);
             this.Font = new System.Drawing.Font("Source Sans Pro", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Main";
-            this.Text = "CMSC 124 \"Chipmunks\"";
+            this.Text = "ANG GANDA NI MA\'AM KATH LOLTERPRETER";
             this.Load += new System.EventHandler(this.Main_Load);
             ((System.ComponentModel.ISupportInitialize)(this.lexemeClassificationGrid)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button testLexerButton;
-        private System.Windows.Forms.Label programNameLabel;
         private System.Windows.Forms.Label codeLabel;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button openFileButton;
@@ -160,6 +166,7 @@
         private System.Windows.Forms.DataGridView lexemeClassificationGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn Lexemes;
         private System.Windows.Forms.DataGridViewTextBoxColumn Classification;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 
