@@ -1,5 +1,4 @@
 HAI
 	VISIBLE "xvariable"
 	I HAS A x ITZ 5
-	SUM OF x AN y
 KTHXBYE

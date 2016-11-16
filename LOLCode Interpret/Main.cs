@@ -90,10 +90,5 @@ namespace LOLCode_Interpret
         {
 
         }
-
-        private void codeLabel_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
