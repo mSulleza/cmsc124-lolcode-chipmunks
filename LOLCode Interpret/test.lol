@@ -11,4 +11,5 @@ HAI
 	BTW single comment! wohoo
 	BOTH OF x5 AN x2
 	BOTH SAEM x3 AN BIGGR OF x3 AN y3
+	SMOOSH "WIN" AN 55.5 AN y3
 KTHXBYE

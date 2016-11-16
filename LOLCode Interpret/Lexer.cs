@@ -37,7 +37,33 @@ namespace LOLCode_Interpret
                 return null;
             }
         }
-
+        public static void smooshString(String input)
+        {
+            string patternSmoosh = @"^( |\t)?(SMOOSH) ([a-zA-Z]+[0-9_]*|WIN|FAIL|-?[0-9]+|-?[0-9]*\.[0-9]|\042.*\042) (AN) ([a-zA-Z]+[0-9_]*|WIN|FAIL|-?[0-9]+|-?[0-9]*\.[0-9]|\042.*\042)$";
+            Match isSmoosh = Regex.Match(input, patternSmoosh);
+            if (isSmoosh.Success)
+            {
+                keyMatch.Add(isSmoosh.Groups[2].ToString());
+                classification.Add("Concatenation Keyword");
+                keyMatch.Add(isSmoosh.Groups[3].ToString());
+                isWhat(isSmoosh.Groups[3].ToString());
+                keyMatch.Add(isSmoosh.Groups[4].ToString());
+                classification.Add("Concatenation");
+                //can't use again because therer is no more SMOOSH keyword
+                //create another function that will read the AN and the follow
+                string isSmooshMore = @"(AN) ([a-zA-Z]+[0-9_]*|WIN|FAIL|-?[0-9]+|-?[0-9]*\.[0-9]|\042.*\042) ";
+                Match isSmooshAgain = Regex.Match(isSmooshMore, patternSmoosh);
+                while (isSmooshAgain.Success)
+                {
+                    smooshString(isSmoosh.Groups[5].ToString());
+                }
+                else
+                {
+                    keyMatch.Add(isSmoosh.Groups[5].ToString());
+                    isWhat(isSmoosh.Groups[5].ToString());
+                }
+            }
+        }
         public static String readAll(System.IO.StreamReader file)
         {
             string code = file.ReadToEnd();
@@ -195,7 +221,7 @@ namespace LOLCode_Interpret
             string patternBOTHSAEM = @"^(\t| )?(BOTH SAEM) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$";
             string patternDIFFRINT = @"^(\t| )?(DIFFRINT) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$";
             System.IO.StreamReader file = openFileProcedure(filePath);
-
+             
             if (file != null)
             {
                 codeBlock = readAll(file);
@@ -210,6 +236,7 @@ namespace LOLCode_Interpret
             //reads until not null
             while ((line = file.ReadLine()) != null)
             {
+                smooshString(line);
                 matchSingleComment(line);
                 matchMultiComment(line);
                 //checks for HAI BYE partner
