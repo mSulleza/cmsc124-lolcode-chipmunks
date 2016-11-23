@@ -213,8 +213,7 @@ namespace LOLCode_Interpret
         }
         public static void booleanOperator(String input)
         {
-            MessageBox.Show("Went here!");
-            string patternBooleanOps = "^(\t | )?(BOTH OF | EITHER OF | WON OF) ([a - zA - Z] +[0 - 9_] *| WIN | FAIL | ((BOTH OF | EITHER OF | WON OF) ([a - zA - Z] +[0 - 9_] *| WIN | FAIL)(AN)([a - zA - Z] +[0 - 9_] *| WIN | FAIL))) (AN)([a - zA - Z] +[0 - 9_] *| WIN | FAIL)$";
+            string patternBooleanOps = "^(\t| )?(BOTH OF|EITHER OF|WON OF) ([a-zA-Z]+[0-9_]*|WIN|FAIL|((BOTH OF|EITHER OF|WON OF) ([a-zA-Z]+[0-9_]*|WIN|FAIL) (AN) ([a-zA-Z]+[0-9_]*|WIN|FAIL))) (AN) ([a-zA-Z]+[0-9_]*|WIN|FAIL)$";
             Match matchPatternBooleanOps = Regex.Match(input, patternBooleanOps);
             if(matchPatternBooleanOps.Success)
             {
@@ -231,6 +230,8 @@ namespace LOLCode_Interpret
                     classification.Add("Concatenation");
                     keyMatch.Add(matchPatternBooleanOps.Groups[8].ToString());
                     isWhat(matchPatternBooleanOps.Groups[8].ToString());
+                    keyMatch.Add(matchPatternBooleanOps.Groups[7].ToString());
+                    classification.Add("Concatenation");
                     keyMatch.Add(matchPatternBooleanOps.Groups[10].ToString());
                     isWhat(matchPatternBooleanOps.Groups[10].ToString());
                 }
@@ -247,7 +248,6 @@ namespace LOLCode_Interpret
         }
         public static void readPerLine(String filePath)
         {
-
             int lineCount = 0;
             int HAIBYECounter = 0;
             int counter = 0;
@@ -377,91 +377,6 @@ namespace LOLCode_Interpret
                     keyMatchCount += 2;
                 }
 
-
-
-
-
-                //check for GIMMEH lexeme
-                //Match matchGIMMEH = Regex.Match(line, patternGIMMEH);
-                //if (matchGIMMEH.Success)
-                //{
-                //    keyMatch.Add(matchGIMMEH.Groups[1].ToString().Replace(" ", ""));
-                //    keyMatchCount += 1;
-                //    classification.Add("Input Keyword");
-                //}
-
-
-                //check for Simple Arithmetic Operations
-                //Match matchArithmeticOps = Regex.Match(line, patternArithmeticOps);
-                //if (matchArithmeticOps.Success)
-                //{
-
-                //    switch (matchArithmeticOps.Groups[2].ToString()) //edited
-                //    {
-                //        case "SUM OF":
-                //            classification.Add("Addition Operator");
-                //            break;
-                //        case "DIFF OF":
-                //            classification.Add("Subtration Operator");
-                //            break;
-                //        case "PRODUKT OF":
-                //            classification.Add("Product Operator");
-                //            break;
-                //        case "QUOSHUNT OF":
-                //            classification.Add("Division Operator");
-                //            break;
-                //        case "MOD OF":
-                //            classification.Add("Modulo Operator");
-                //            break;
-                //        case "BIGGR OF":
-                //            classification.Add("Max Operator");
-                //            break;
-                //        case "SMALLR OF":
-                //            classification.Add("Min Operator");
-                //            break;
-                //    }
-                //    keyMatch.Add(matchArithmeticOps.Groups[2].ToString());
-                //    keyMatch.Add(matchArithmeticOps.Groups[3].ToString());
-                //    isWhat(matchArithmeticOps.Groups[3].ToString());
-                //    keyMatch.Add(matchArithmeticOps.Groups[5].ToString());
-                //    classification.Add("Concatenation");
-                //    isExpression(matchArithmeticOps.Groups[6].ToString());
-
-                //}
-
-
-                //check for Simple Boolean Operations
-                //Match matchBooleanOps = Regex.Match(line, patternBooleanOps);
-                //if (matchBooleanOps.Success)
-                //{
-
-                //    keyMatch.Add(matchBooleanOps.Groups[2].ToString());
-                //    switch (matchBooleanOps.Groups[2].ToString())
-                //    {
-                //        case "BOTH OF":
-                //            classification.Add("AND Operator");
-                //            break;
-                //        case "EITHER OF":
-                //            classification.Add("OR Operator");
-                //            break;
-                //        case "WON OF":
-                //            classification.Add("XOR Operator");
-                //            break;
-                //        case "ALL OF":
-                //            classification.Add("Infinite Arity AND Operator");
-                //            break;
-                //        case "ANY OF":
-                //            classification.Add("Infinite Arity OR Operator");
-                //            break;
-                //    }
-                //    keyMatch.Add(matchBooleanOps.Groups[3].ToString());
-                //    isWhat(matchBooleanOps.Groups[3].ToString());
-                //    keyMatch.Add(matchBooleanOps.Groups[6].ToString());
-                //    classification.Add("Concatenation");
-                //    keyMatch.Add(matchBooleanOps.Groups[7].ToString());
-                //    isWhat(matchBooleanOps.Groups[7].ToString());
-                    
-                //}
 
                 //check for NOT operation
                 Match matchBooleanNot = Regex.Match(line, patternBooleanNot);
@@ -600,8 +515,8 @@ namespace LOLCode_Interpret
                     isWhat(matchDIFFRINT.Groups[3].ToString());
                     keyMatch.Add(matchDIFFRINT.Groups[5].ToString());
                     classification.Add("Concatenation");
-                    keyMatch.Add(matchDIFFRINT.Groups[6].ToString());
-                    isWhat(matchDIFFRINT.Groups[6].ToString());
+                    isExpression(matchDIFFRINT.Groups[6].ToString());
+                    
                 }
 
 

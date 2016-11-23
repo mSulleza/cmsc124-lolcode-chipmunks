@@ -80,7 +80,7 @@
             // 
             this.codeTextBox.Location = new System.Drawing.Point(17, 45);
             this.codeTextBox.Name = "codeTextBox";
-            this.codeTextBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.codeTextBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.codeTextBox.Size = new System.Drawing.Size(238, 153);
             this.codeTextBox.TabIndex = 10;
             this.codeTextBox.Text = "";
