@@ -211,7 +211,40 @@ namespace LOLCode_Interpret
                 isWhat(input);
             }
         }
-        
+        public static void booleanOperator(String input)
+        {
+            MessageBox.Show("Went here!");
+            string patternBooleanOps = "^(\t | )?(BOTH OF | EITHER OF | WON OF) ([a - zA - Z] +[0 - 9_] *| WIN | FAIL | ((BOTH OF | EITHER OF | WON OF) ([a - zA - Z] +[0 - 9_] *| WIN | FAIL)(AN)([a - zA - Z] +[0 - 9_] *| WIN | FAIL))) (AN)([a - zA - Z] +[0 - 9_] *| WIN | FAIL)$";
+            Match matchPatternBooleanOps = Regex.Match(input, patternBooleanOps);
+            if(matchPatternBooleanOps.Success)
+            {
+                keyMatch.Add(matchPatternBooleanOps.Groups[2].ToString());
+                classification.Add("Boolean Operator");
+                Match matchPatternBooleanOpsAgain = Regex.Match(matchPatternBooleanOps.Groups[3].ToString(), patternBooleanOps);
+                if (matchPatternBooleanOpsAgain.Success)
+                {
+                    keyMatch.Add(matchPatternBooleanOps.Groups[5].ToString());
+                    classification.Add("Boolean Operator");
+                    keyMatch.Add(matchPatternBooleanOps.Groups[6].ToString());
+                    isWhat(matchPatternBooleanOps.Groups[6].ToString());
+                    keyMatch.Add(matchPatternBooleanOps.Groups[7].ToString());
+                    classification.Add("Concatenation");
+                    keyMatch.Add(matchPatternBooleanOps.Groups[8].ToString());
+                    isWhat(matchPatternBooleanOps.Groups[8].ToString());
+                    keyMatch.Add(matchPatternBooleanOps.Groups[10].ToString());
+                    isWhat(matchPatternBooleanOps.Groups[10].ToString());
+                }
+                else
+                {
+                    keyMatch.Add(matchPatternBooleanOps.Groups[3].ToString());
+                    isWhat(matchPatternBooleanOps.Groups[3].ToString());
+                    keyMatch.Add(matchPatternBooleanOps.Groups[9].ToString());
+                    classification.Add("Concatenation");
+                    keyMatch.Add(matchPatternBooleanOps.Groups[10].ToString());
+                    isWhat(matchPatternBooleanOps.Groups[10].ToString());
+                }
+            }
+        }
         public static void readPerLine(String filePath)
         {
 
@@ -236,7 +269,7 @@ namespace LOLCode_Interpret
             string patternIHASAITZ = @"^((\t| )?I HAS A) (([a-zA-Z]+)([0-9_]*)) (ITZ) (-?[0-9]*|([a-zA-Z]+)([0-9_]*)|-?[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$"; //edit: changed  ([a-zA-Z]*([0-9_]*)) to (".*")
             //string patternR = @"^((\t| ([a-zA-Z]*)([0-9_]*) (R) ([0-9])*)$";
             string patternGIMMEH = @"^((\t| )GIMMEH) ([a-zA-Z]*)([0-9_]*)$";
-            string patternBooleanOps = @"^(\t| )?(BOTH OF|EITHER OF|WON OF|ALL OF|ANY OF) (([a-zA-Z]+)([0-9_]*)|WIN|FAIL) (AN) (([a-zA-Z]+)([0-9_]*)|WIN|FAIL)$";
+            string patternBooleanOps = @"^(\t| )?(BOTH OF|EITHER OF|WON OF`) (([a-zA-Z]+)([0-9_]*)|(WIN|FAIL)|(BOTH OF|EITHER OF|WON OF) (([a-zA-Z]+)([0-9_]*)|WIN|FAIL) (AN) (([a-zA-Z]+)([0-9_]*)|WIN|FAIL)) (AN) (([a-zA-Z]+)([0-9_]*)|(WIN|FAIL))$";
             string patternBooleanNot = @"^((\t| )NOT) ((WIN)|(FAIL))$";
             string patternIfElse = @"^((\t| )(.*))(\n)((\t| )(O RLY?)(\n))((\t| )(YA RLY)(\n))((\t| )(.*))(\n)((\t| )(NO WAI)(\n))((\t| ).*)((\t| )(OIC))$";
             string patternBOTHSAEM = @"^(\t| )?(BOTH SAEM) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$";
@@ -258,6 +291,7 @@ namespace LOLCode_Interpret
             //reads until not null
             while ((line = file.ReadLine()) != null)
             {
+                booleanOperator(line);
                 //checks for HAI BYE partner
                 if (counter == 0)
                 {   //checks for HAI
@@ -397,37 +431,37 @@ namespace LOLCode_Interpret
 
 
                 //check for Simple Boolean Operations
-                Match matchBooleanOps = Regex.Match(line, patternBooleanOps);
-                if (matchBooleanOps.Success)
-                {
+                //Match matchBooleanOps = Regex.Match(line, patternBooleanOps);
+                //if (matchBooleanOps.Success)
+                //{
 
-                    keyMatch.Add(matchBooleanOps.Groups[2].ToString());
-                    switch (matchBooleanOps.Groups[2].ToString())
-                    {
-                        case "BOTH OF":
-                            classification.Add("AND Operator");
-                            break;
-                        case "EITHER OF":
-                            classification.Add("OR Operator");
-                            break;
-                        case "WON OF":
-                            classification.Add("XOR Operator");
-                            break;
-                        case "ALL OF":
-                            classification.Add("Infinite Arity AND Operator");
-                            break;
-                        case "ANY OF":
-                            classification.Add("Infinite Arity OR Operator");
-                            break;
-                    }
-                    keyMatch.Add(matchBooleanOps.Groups[3].ToString());
-                    isWhat(matchBooleanOps.Groups[3].ToString());
-                    keyMatch.Add(matchBooleanOps.Groups[6].ToString());
-                    classification.Add("Concatenation");
-                    keyMatch.Add(matchBooleanOps.Groups[7].ToString());
-                    isWhat(matchBooleanOps.Groups[7].ToString());
+                //    keyMatch.Add(matchBooleanOps.Groups[2].ToString());
+                //    switch (matchBooleanOps.Groups[2].ToString())
+                //    {
+                //        case "BOTH OF":
+                //            classification.Add("AND Operator");
+                //            break;
+                //        case "EITHER OF":
+                //            classification.Add("OR Operator");
+                //            break;
+                //        case "WON OF":
+                //            classification.Add("XOR Operator");
+                //            break;
+                //        case "ALL OF":
+                //            classification.Add("Infinite Arity AND Operator");
+                //            break;
+                //        case "ANY OF":
+                //            classification.Add("Infinite Arity OR Operator");
+                //            break;
+                //    }
+                //    keyMatch.Add(matchBooleanOps.Groups[3].ToString());
+                //    isWhat(matchBooleanOps.Groups[3].ToString());
+                //    keyMatch.Add(matchBooleanOps.Groups[6].ToString());
+                //    classification.Add("Concatenation");
+                //    keyMatch.Add(matchBooleanOps.Groups[7].ToString());
+                //    isWhat(matchBooleanOps.Groups[7].ToString());
                     
-                }
+                //}
 
                 //check for NOT operation
                 Match matchBooleanNot = Regex.Match(line, patternBooleanNot);

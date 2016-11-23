@@ -1,4 +1,4 @@
-HAI
+HAI 1.2
 	VISIBLE "xvariable"
 	I HAS A var2
 	I HAS A x ITZ 5.5
@@ -11,5 +11,6 @@ HAI
 	BTW single comment! wohoo
 	BOTH OF x5 AN x2
 	BOTH SAEM x3 AN BIGGR OF x3 AN y3
-	SMOOSH "WIN" AN 55.5 AN y3
+	EITHER OF BOTH OF x AN y AN x
+	BOTH OF EITHER OF WIN AN FAIL AN WIN
 KTHXBYE

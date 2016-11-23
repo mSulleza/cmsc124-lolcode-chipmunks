@@ -16,12 +16,11 @@ namespace LOLCode_Interpret
         public Main()
         {
             InitializeComponent();
-            
         }
-
+        
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -105,15 +104,12 @@ namespace LOLCode_Interpret
 
         private void codeTextBox_TextChanged(object sender, EventArgs e)
         {
-            Console.Write("Writing changes to temp file");
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"..\temp.lol"))
-            {
-                foreach (string line in codeTextBox.Lines)
-                {
-                    //file.WriteLine(line);
-                }
-            }
+            
         }
 
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

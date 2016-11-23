@@ -80,6 +80,7 @@
             // 
             this.codeTextBox.Location = new System.Drawing.Point(17, 45);
             this.codeTextBox.Name = "codeTextBox";
+            this.codeTextBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.codeTextBox.Size = new System.Drawing.Size(238, 153);
             this.codeTextBox.TabIndex = 10;
             this.codeTextBox.Text = "";
@@ -132,6 +133,7 @@
             this.richTextBox1.Size = new System.Drawing.Size(696, 261);
             this.richTextBox1.TabIndex = 12;
             this.richTextBox1.Text = "";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // Main
             // 
