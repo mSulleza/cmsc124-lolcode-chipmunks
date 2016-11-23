@@ -80,10 +80,10 @@
             // 
             this.codeTextBox.Location = new System.Drawing.Point(17, 45);
             this.codeTextBox.Name = "codeTextBox";
-            this.codeTextBox.ReadOnly = true;
             this.codeTextBox.Size = new System.Drawing.Size(238, 153);
             this.codeTextBox.TabIndex = 10;
             this.codeTextBox.Text = "";
+            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
             // 
             // lexemeClassificationGrid
             // 

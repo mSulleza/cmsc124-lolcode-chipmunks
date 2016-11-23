@@ -53,7 +53,7 @@ namespace LOLCode_Interpret
                 //create another function that will read the AN and the follow
                 string isSmooshMore = @"(AN) ([a-zA-Z]+[0-9_]*|WIN|FAIL|-?[0-9]+|-?[0-9]*\.[0-9]|\042.*\042) ";
                 Match isSmooshAgain = Regex.Match(isSmooshMore, patternSmoosh);
-                while (isSmooshAgain.Success)
+                if (isSmooshAgain.Success)
                 {
                     smooshString(isSmoosh.Groups[5].ToString());
                 }
@@ -83,16 +83,37 @@ namespace LOLCode_Interpret
 
         }
 
+        public static void matchRAssignment(String input)
+        {
+                                //variable              R   variable            boolean int        yarn            numbar
+            string patternR = @"(^([a-zA-Z]+)([0-9_]*)) (R) ([a-zA-Z]+[0-9_]*|WIN|FAIL|-?[0-9]+|(\042)(.*)(\042)|[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$";
+            Match matchPatternR = Regex.Match(input, patternR);
+            if(matchPatternR.Success)
+            {
+                keyMatch.Add(matchPatternR.Groups[1].ToString());
+                classification.Add("Variable");
+                keyMatch.Add(matchPatternR.Groups[4].ToString());
+                classification.Add("Variable Assignment");
+                isWhat(matchPatternR.Groups[5].ToString());
+                arithmeticOp(matchPatternR.Groups[5].ToString());
+            }
+        }
         public static void matchMultiComment(String input)
         {
-            string patternOBTWMulti = @"^( |\t)?(OBTW) (.*)\n( |\t)?(TLDR)$";
-            Match matchOBTWMulti = Regex.Match(input, patternOBTWMulti);
-            if (matchOBTWMulti.Success)
+            
+        }
+
+        public static void matchGimmeh(String input)
+        {
+            string patternGimmeh = @"^(GIMMEH) (([a-zA-Z]+)([0-9_]*))$";
+            Match matchPatternGimmeh = Regex.Match(input, patternGimmeh);
+            if (matchPatternGimmeh.Success)
             {
-                keyMatch.Add(matchOBTWMulti.Groups[2].ToString());
-                classification.Add("Single Line Comment Delimiter");
-                keyMatch.Add(matchOBTWMulti.Groups[5].ToString());
-                classification.Add("Comment");
+                keyMatch.Add(matchPatternGimmeh.Groups[1].ToString());
+                classification.Add("Input Keyword");
+                keyMatch.Add(matchPatternGimmeh.Groups[2].ToString());
+                classification.Add("Variable");
+                variables.Add(matchPatternGimmeh.Groups[2].ToString());
             }
         }
         public static void isWhat(String input)
@@ -210,7 +231,7 @@ namespace LOLCode_Interpret
             string patternVariable = @"^([a-zA-Z]+)([0-9_]*)$";
             string patternVISIBLE = "^((\t| )VISIBLE) ((\")(.*)(\")|[^\"].*[^\"])$";
             string patternBYE = @"^KTHXBYE$";
-            string patternHAI = @"^HAI$";
+            string patternHAI = @"^HAI ([0-9]\.[0-9])?$";
             string patternIHASA = @"^((\t| )?I HAS A) (([a-zA-Z]+)([0-9_]*))$"; //edit: changed [a-zA-Z]* to [a-zA-Z]+
             string patternIHASAITZ = @"^((\t| )?I HAS A) (([a-zA-Z]+)([0-9_]*)) (ITZ) (-?[0-9]*|([a-zA-Z]+)([0-9_]*)|-?[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$"; //edit: changed  ([a-zA-Z]*([0-9_]*)) to (".*")
             //string patternR = @"^((\t| ([a-zA-Z]*)([0-9_]*) (R) ([0-9])*)$";
@@ -230,15 +251,13 @@ namespace LOLCode_Interpret
                 lineCount = File.ReadAllLines(filePath).Length; //gets the number of lines
             }
             else return;
+
             
             //reads the file line by line
             
             //reads until not null
             while ((line = file.ReadLine()) != null)
             {
-                smooshString(line);
-                matchSingleComment(line);
-                matchMultiComment(line);
                 //checks for HAI BYE partner
                 if (counter == 0)
                 {   //checks for HAI
@@ -267,7 +286,13 @@ namespace LOLCode_Interpret
 
                 //checks for keyword VISIBLE
 
-
+                //arithmeticOp(line);
+                matchRAssignment(line);
+                smooshString(line);
+                matchSingleComment(line);
+                matchMultiComment(line);
+                arithmeticOp(line);
+                matchGimmeh(line);
                 Match matchVISIBLE = Regex.Match(line, patternVISIBLE);
                 if (matchVISIBLE.Success)
                 {
@@ -323,64 +348,52 @@ namespace LOLCode_Interpret
 
 
                 //check for GIMMEH lexeme
-                Match matchGIMMEH = Regex.Match(line, patternGIMMEH);
-                if (matchGIMMEH.Success)
-                {
-                    keyMatch.Add(matchGIMMEH.Groups[1].ToString().Replace(" ", ""));
-                    keyMatchCount += 1;
-                    classification.Add("Input Keyword");
-                }
-
-                //check for assignment statements
-                /*Match matchRAssignment = Regex.Match(line, patternR);
-				if (matchRAssignment.Success) {
-					keyMatch.Add (matchRAssignment.Groups [1].ToString().Replace (" ", ""));
-					classification.Add ("Variable");
-					keyMatch.Add (matchRAssignment.Groups [2].ToString());
-					classification.Add ("Assignment Statement");
-					keyMatch.Add (matchRAssignment.Groups [3].ToString());
-					classification.Add ("Variable");
-					keyMatchCount += 3;
-				}*/
+                //Match matchGIMMEH = Regex.Match(line, patternGIMMEH);
+                //if (matchGIMMEH.Success)
+                //{
+                //    keyMatch.Add(matchGIMMEH.Groups[1].ToString().Replace(" ", ""));
+                //    keyMatchCount += 1;
+                //    classification.Add("Input Keyword");
+                //}
 
 
                 //check for Simple Arithmetic Operations
-                Match matchArithmeticOps = Regex.Match(line, patternArithmeticOps);
-                if (matchArithmeticOps.Success)
-                {
+                //Match matchArithmeticOps = Regex.Match(line, patternArithmeticOps);
+                //if (matchArithmeticOps.Success)
+                //{
 
-                    switch (matchArithmeticOps.Groups[2].ToString()) //edited
-                    {
-                        case "SUM OF":
-                            classification.Add("Addition Operator");
-                            break;
-                        case "DIFF OF":
-                            classification.Add("Subtration Operator");
-                            break;
-                        case "PRODUKT OF":
-                            classification.Add("Product Operator");
-                            break;
-                        case "QUOSHUNT OF":
-                            classification.Add("Division Operator");
-                            break;
-                        case "MOD OF":
-                            classification.Add("Modulo Operator");
-                            break;
-                        case "BIGGR OF":
-                            classification.Add("Max Operator");
-                            break;
-                        case "SMALLR OF":
-                            classification.Add("Min Operator");
-                            break;
-                    }
-                    keyMatch.Add(matchArithmeticOps.Groups[2].ToString());
-                    keyMatch.Add(matchArithmeticOps.Groups[3].ToString());
-                    isWhat(matchArithmeticOps.Groups[3].ToString());
-                    keyMatch.Add(matchArithmeticOps.Groups[5].ToString());
-                    classification.Add("Concatenation");
-                    isExpression(matchArithmeticOps.Groups[6].ToString());
+                //    switch (matchArithmeticOps.Groups[2].ToString()) //edited
+                //    {
+                //        case "SUM OF":
+                //            classification.Add("Addition Operator");
+                //            break;
+                //        case "DIFF OF":
+                //            classification.Add("Subtration Operator");
+                //            break;
+                //        case "PRODUKT OF":
+                //            classification.Add("Product Operator");
+                //            break;
+                //        case "QUOSHUNT OF":
+                //            classification.Add("Division Operator");
+                //            break;
+                //        case "MOD OF":
+                //            classification.Add("Modulo Operator");
+                //            break;
+                //        case "BIGGR OF":
+                //            classification.Add("Max Operator");
+                //            break;
+                //        case "SMALLR OF":
+                //            classification.Add("Min Operator");
+                //            break;
+                //    }
+                //    keyMatch.Add(matchArithmeticOps.Groups[2].ToString());
+                //    keyMatch.Add(matchArithmeticOps.Groups[3].ToString());
+                //    isWhat(matchArithmeticOps.Groups[3].ToString());
+                //    keyMatch.Add(matchArithmeticOps.Groups[5].ToString());
+                //    classification.Add("Concatenation");
+                //    isExpression(matchArithmeticOps.Groups[6].ToString());
 
-                }
+                //}
 
 
                 //check for Simple Boolean Operations

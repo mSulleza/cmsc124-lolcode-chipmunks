@@ -16,18 +16,11 @@ namespace LOLCode_Interpret
         public Main()
         {
             InitializeComponent();
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Lexer.readPerLine(Lexer.filePath);
-            codeTextBox.Text = Lexer.codeBlock;
-
-            for(int i=0; i < Lexer.keyMatch.Count(); i++)
-            {
-                lexemeClassificationGrid.Rows.Add(Lexer.keyMatch[i], Lexer.classification[i]);
-            }
-
             
         }
 
@@ -68,6 +61,7 @@ namespace LOLCode_Interpret
         private void openFileButton_Click(object sender, EventArgs e)
         {
             {
+                
                 Stream myStream;
                 OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
@@ -84,6 +78,18 @@ namespace LOLCode_Interpret
                         myStream.Close();
                     }
                 }
+                lexemeClassificationGrid.DataSource = null;
+                lexemeClassificationGrid.Rows.Clear();
+                Lexer.keyMatch.Clear();
+                Lexer.classification.Clear();
+
+                Lexer.readPerLine(Lexer.filePath);
+                codeTextBox.Text = Lexer.codeBlock;
+
+                for (int i = 0; i < Lexer.keyMatch.Count(); i++)
+                {
+                    lexemeClassificationGrid.Rows.Add(Lexer.keyMatch[i], Lexer.classification[i]);
+                }
             }
         }
 
@@ -96,5 +102,18 @@ namespace LOLCode_Interpret
         {
 
         }
+
+        private void codeTextBox_TextChanged(object sender, EventArgs e)
+        {
+            Console.Write("Writing changes to temp file");
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"..\temp.lol"))
+            {
+                foreach (string line in codeTextBox.Lines)
+                {
+                    //file.WriteLine(line);
+                }
+            }
+        }
+
     }
 }
