@@ -6,3 +6,4 @@ C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Inter
 C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\obj\Debug\LOLCode Interpret.csproj.GenerateResource.Cache
 C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\obj\Debug\LOLCode Interpret.exe
 C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\obj\Debug\LOLCode Interpret.pdb
+C:\Users\marks\OneDrive\Documents\GitHub\cmsc124-lolcode-chipmunks\LOLCode Interpret\obj\Debug\LOLCode Interpret.csprojResolveAssemblyReference.cache

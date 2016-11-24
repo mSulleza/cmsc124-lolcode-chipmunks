@@ -11,6 +11,7 @@ namespace LOLCode_Interpret
 {
     public class Lexer
     {
+        public static bool notVar = false;
         public static char[] token = new Char[500];
         public static List<String> keyMatch = new List<String>(); //stores and counts the matched keywords
         public static List<String> classification = new List<String>();
@@ -18,6 +19,7 @@ namespace LOLCode_Interpret
 
         public static List<String> variables = new List<String>(); //stores and counts the variables
         public static int variableCount = 0;
+        public static List<String> variable_value = new List<String>();
 
         public static string fileName;
         //change this to dynamic path
@@ -36,6 +38,11 @@ namespace LOLCode_Interpret
                 MessageBox.Show("File not specified!");
                 return null;
             }
+        }
+
+        public static void arithmetic(String input)
+        {
+            
         }
         public static void smooshString(String input)
         {
@@ -64,6 +71,36 @@ namespace LOLCode_Interpret
                 }
             }
         }
+
+        public static string ifThen(String input, String previous)
+        {
+            string patternORLY = @"^O RLY\?$";
+            string patternYARLY = @"^YA RLY$";
+            Match matchORLY = Regex.Match(patternORLY, input);
+            Match matchORLYPrev = Regex.Match(patternORLY, previous);
+            Match matchYARLY = Regex.Match(patternYARLY, input);
+            Match matchYARLYPrev = Regex.Match(patternYARLY, previous);
+            if (matchORLY.Success)
+            {
+                keyMatch.Add(matchORLY.ToString());
+                classification.Add("If-Then Delimiter");
+                previous = input;
+                return previous;
+            }
+            if (matchORLYPrev.Success)
+            {
+                if (matchORLY.Success)
+                {
+                    keyMatch.Add(matchORLY.ToString());
+                    classification.Add("If Clause");
+                    previous = input;
+                    return previous;
+                }
+                else return null;
+            }
+            else return null;
+
+        }
         public static String readAll(System.IO.StreamReader file)
         {
             string code = file.ReadToEnd();
@@ -83,21 +120,7 @@ namespace LOLCode_Interpret
 
         }
 
-        public static void matchRAssignment(String input)
-        {
-                                //variable              R   variable            boolean int        yarn            numbar
-            string patternR = @"(^([a-zA-Z]+)([0-9_]*)) (R) ([a-zA-Z]+[0-9_]*|WIN|FAIL|-?[0-9]+|(\042)(.*)(\042)|[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$";
-            Match matchPatternR = Regex.Match(input, patternR);
-            if(matchPatternR.Success)
-            {
-                keyMatch.Add(matchPatternR.Groups[1].ToString());
-                classification.Add("Variable");
-                keyMatch.Add(matchPatternR.Groups[4].ToString());
-                classification.Add("Variable Assignment");
-                isWhat(matchPatternR.Groups[5].ToString());
-                arithmeticOp(matchPatternR.Groups[5].ToString());
-            }
-        }
+        
         public static void matchMultiComment(String input)
         {
             
@@ -113,7 +136,6 @@ namespace LOLCode_Interpret
                 classification.Add("Input Keyword");
                 keyMatch.Add(matchPatternGimmeh.Groups[2].ToString());
                 classification.Add("Variable");
-                variables.Add(matchPatternGimmeh.Groups[2].ToString());
             }
         }
         public static void isWhat(String input)
@@ -146,6 +168,14 @@ namespace LOLCode_Interpret
             if (isVariable.Success)
             {
                 classification.Add("Variable");
+                if (variables.Contains(isVariable.ToString())) return;
+                else
+                {
+                    if (notVar == false)
+                    {
+                        variables.Add(isVariable.ToString());
+                    }
+                }  //checks if the variable is existing already or not
             }
             else
             {
@@ -194,7 +224,9 @@ namespace LOLCode_Interpret
                 keyMatch.Add(matchArithmeticOps.Groups[5].ToString());
                 classification.Add("Concatenation");
                 keyMatch.Add(matchArithmeticOps.Groups[6].ToString());
+                notVar = true;
                 isWhat(matchArithmeticOps.Groups[6].ToString());
+                notVar = false;
             }
         }
         public static void isExpression(String input)
@@ -246,8 +278,24 @@ namespace LOLCode_Interpret
                 }
             }
         }
+        public static void matchRAssignment(String input)
+        {
+            //variable              R   variable            boolean int        yarn            numbar
+            string patternR = @"^(\t| )?(([a-zA-Z]+)([0-9_]*)) (R) ([a-zA-Z]+[0-9_]*|WIN|FAIL|-?[0-9]+|(\042)(.*)(\042)|[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$";
+            Match matchPatternR = Regex.Match(input, patternR);
+            if (matchPatternR.Success)
+            {
+                keyMatch.Add(matchPatternR.Groups[2].ToString());
+                classification.Add("Variable");
+                keyMatch.Add(matchPatternR.Groups[5].ToString());
+                classification.Add("Variable Assignment");
+                isExpression(matchPatternR.Groups[6].ToString());
+                variable_value.Add(matchPatternR.Groups[6].ToString());
+            }
+        }
         public static void readPerLine(String filePath)
         {
+            string previous;
             int lineCount = 0;
             int HAIBYECounter = 0;
             int counter = 0;
@@ -271,7 +319,7 @@ namespace LOLCode_Interpret
             string patternGIMMEH = @"^((\t| )GIMMEH) ([a-zA-Z]*)([0-9_]*)$";
             string patternBooleanOps = @"^(\t| )?(BOTH OF|EITHER OF|WON OF`) (([a-zA-Z]+)([0-9_]*)|(WIN|FAIL)|(BOTH OF|EITHER OF|WON OF) (([a-zA-Z]+)([0-9_]*)|WIN|FAIL) (AN) (([a-zA-Z]+)([0-9_]*)|WIN|FAIL)) (AN) (([a-zA-Z]+)([0-9_]*)|(WIN|FAIL))$";
             string patternBooleanNot = @"^((\t| )NOT) ((WIN)|(FAIL))$";
-            string patternIfElse = @"^((\t| )(.*))(\n)((\t| )(O RLY?)(\n))((\t| )(YA RLY)(\n))((\t| )(.*))(\n)((\t| )(NO WAI)(\n))((\t| ).*)((\t| )(OIC))$";
+            //string patternIfElse = @"^((\t| )(.*))(\n)((\t| )(O RLY?)(\n))((\t| )(YA RLY)(\n))((\t| )(.*))(\n)((\t| )(NO WAI)(\n))((\t| ).*)((\t| )(OIC))$";
             string patternBOTHSAEM = @"^(\t| )?(BOTH SAEM) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$";
             string patternDIFFRINT = @"^(\t| )?(DIFFRINT) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+|(SUM OF|DIFF OF|PRODUKT OF|QUOSHUNT OF|MOD OF|BIGGR OF|SMALLR OF) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|-?[0-9]*\.[0-9]+) (AN) (-?[0-9]+|([a-zA-Z]+[0-9_]*)|[0-9]*\.[0-9]+))$";
             System.IO.StreamReader file = openFileProcedure(filePath);
@@ -320,12 +368,11 @@ namespace LOLCode_Interpret
 
                 //checks for keyword VISIBLE
 
-                //arithmeticOp(line);
+                arithmeticOp(line);
                 matchRAssignment(line);
                 smooshString(line);
                 matchSingleComment(line);
                 matchMultiComment(line);
-                arithmeticOp(line);
                 matchGimmeh(line);
                 Match matchVISIBLE = Regex.Match(line, patternVISIBLE);
                 if (matchVISIBLE.Success)
@@ -360,18 +407,36 @@ namespace LOLCode_Interpret
                 {               //initialized declaration
                     keyMatch.Add(matchIHASITZ.Groups[1].ToString());
                     classification.Add("Variable Declaration");
+                    
                     keyMatch.Add(matchIHASITZ.Groups[3].ToString());
                     classification.Add("Variable");
-                    variables.Add(matchIHASITZ.Groups[3].ToString());
+                    if (variables.Contains(matchIHASITZ.Groups[3].ToString()))
+                    { } //do nothing
+                    else
+                    {
+                        variables.Add(matchIHASITZ.Groups[3].ToString());
+                        //variable_value.Add(matchIHASITZ.Groups[3].ToString());
+                        //variable_value[variables.IndexOf(matchIHASITZ.Groups[3].ToString())] = matchIHASITZ.Groups[7].ToString();
+                    }
                     keyMatch.Add(matchIHASITZ.Groups[6].ToString());
                     classification.Add("Variable Initialization");
                     isExpression(matchIHASITZ.Groups[7].ToString());
+                    variable_value.Add(matchIHASITZ.Groups[7].ToString());
+                    
 
                 }
                 else if (matchIHASA.Success)
                 { //uninitialized decalaration
                     keyMatch.Add(matchIHASA.Groups[1].ToString());
                     classification.Add("Variable Declaration");
+                    if (variables.Contains(matchIHASA.Groups[1].ToString()))
+                    { } //do nothing
+                    else
+                    {
+                        variables.Add(matchIHASA.Groups[3].ToString());
+                        variable_value.Add("NOOB");
+
+                    }
                     keyMatch.Add(matchIHASA.Groups[3].ToString());
                     classification.Add("NOOB Variable");
                     keyMatchCount += 2;
@@ -494,14 +559,11 @@ namespace LOLCode_Interpret
                 {
                     keyMatch.Add(matchBOTHSAEM.Groups[2].ToString());
                     classification.Add("Comparison Operator");
-                    //compare if immediate value or variable
                     keyMatch.Add(matchBOTHSAEM.Groups[3].ToString());
                     isWhat(matchBOTHSAEM.Groups[3].ToString());
                     keyMatch.Add(matchBOTHSAEM.Groups[5].ToString());
                     classification.Add("Concatenation");
                     isExpression(matchBOTHSAEM.Groups[6].ToString());
-                    //keyMatch.Add(matchBOTHSAEM.Groups[6].ToString());
-                    //isWhat(matchBOTHSAEM.Groups[6].ToString());
 
                 }
 

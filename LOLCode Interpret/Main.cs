@@ -89,6 +89,11 @@ namespace LOLCode_Interpret
                 {
                     lexemeClassificationGrid.Rows.Add(Lexer.keyMatch[i], Lexer.classification[i]);
                 }
+
+                for (int i = 0; i < Lexer.variable_value.Count(); i++)
+                {
+                    symbolTableDataGrid.Rows.Add(Lexer.variables[i], Lexer.variable_value[i]);
+                }
             }
         }
 
@@ -108,6 +113,11 @@ namespace LOLCode_Interpret
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

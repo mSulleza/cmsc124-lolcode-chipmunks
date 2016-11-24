@@ -37,7 +37,11 @@
             this.Lexemes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Classification = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.symbolTableDataGrid = new System.Windows.Forms.DataGridView();
+            this.Identifier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.lexemeClassificationGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.symbolTableDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // testLexerButton
@@ -135,12 +139,47 @@
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
+            // symbolTableDataGrid
+            // 
+            this.symbolTableDataGrid.AllowUserToAddRows = false;
+            this.symbolTableDataGrid.AllowUserToDeleteRows = false;
+            this.symbolTableDataGrid.AllowUserToResizeColumns = false;
+            this.symbolTableDataGrid.AllowUserToResizeRows = false;
+            this.symbolTableDataGrid.BackgroundColor = System.Drawing.SystemColors.ActiveBorder;
+            this.symbolTableDataGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.symbolTableDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.symbolTableDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Identifier,
+            this.Value});
+            this.symbolTableDataGrid.Location = new System.Drawing.Point(490, 23);
+            this.symbolTableDataGrid.Name = "symbolTableDataGrid";
+            this.symbolTableDataGrid.ReadOnly = true;
+            this.symbolTableDataGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.symbolTableDataGrid.RowHeadersVisible = false;
+            this.symbolTableDataGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.symbolTableDataGrid.Size = new System.Drawing.Size(203, 175);
+            this.symbolTableDataGrid.TabIndex = 13;
+            this.symbolTableDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // Identifier
+            // 
+            this.Identifier.HeaderText = "Identifier";
+            this.Identifier.Name = "Identifier";
+            this.Identifier.ReadOnly = true;
+            // 
+            // Value
+            // 
+            this.Value.HeaderText = "Value";
+            this.Value.Name = "Value";
+            this.Value.ReadOnly = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(725, 536);
+            this.Controls.Add(this.symbolTableDataGrid);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.lexemeClassificationGrid);
             this.Controls.Add(this.codeTextBox);
@@ -153,6 +192,7 @@
             this.Text = "ANG GANDA NI MA\'AM KATH LOLTERPRETER";
             this.Load += new System.EventHandler(this.Main_Load);
             ((System.ComponentModel.ISupportInitialize)(this.lexemeClassificationGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.symbolTableDataGrid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -168,6 +208,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Lexemes;
         private System.Windows.Forms.DataGridViewTextBoxColumn Classification;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.DataGridView symbolTableDataGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Identifier;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
     }
 }
 
